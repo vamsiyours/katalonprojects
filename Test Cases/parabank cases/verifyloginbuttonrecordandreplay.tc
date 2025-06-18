@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>verifyloginbuttonrecordandreplay</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>21122bfb-46ee-4758-b01a-7f6028ec2337</testCaseGuid>
+</TestCaseEntity>
