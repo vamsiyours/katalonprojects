@@ -6,7 +6,7 @@ on:
       - master
   schedule:
     - cron: '30 3 * * *'  # Runs every day at 9:00 AM IST (3:30 UTC)
-  workflow_dispatch:
+  workflow_dispatch:      # Enables manual "Run workflow" button
 
 jobs:
   katalon-test:
@@ -19,7 +19,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          distribution: 'temurin'       # ✅ FIX: Required field
+          java-version: '8'             # Java 8 for Katalon compatibility
 
       - name: Download Katalon Studio
         run: |
@@ -31,7 +32,7 @@ jobs:
         run: |
           ./Katalon_Studio_Linux_64-8.6.5/katalonc -noSplash \
           -runMode=console \
-          -projectPath=$(pwd)/parabank.prj \
+          -projectPath="$(pwd)/parabank.prj" \
           -testSuitePath="Test Suites/New Test Suite" \
           -browserType="Chrome" \
-          -apiKey=${{ secrets.KATALON_API_KEY }}
+          -apiKey="${{ secrets.KATALON_API_KEY }}"
