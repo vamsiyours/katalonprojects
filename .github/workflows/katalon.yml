@@ -3,10 +3,10 @@ name: Run Katalon Tests
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
-    - cron: '30 3 * * *'  # Runs every day at 9:00 AM IST (3:30 UTC)
-  workflow_dispatch:      # Enables manual "Run workflow" button
+    - cron: '30 3 * * *'
+  workflow_dispatch:
 
 jobs:
   katalon-test:
@@ -19,18 +19,19 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'       # ✅ FIX: Required field
-          java-version: '8'             # Java 8 for Katalon compatibility
+          distribution: 'temurin'
+          java-version: '8'
 
-      - name: Download Katalon Studio
+      - name: Download and Extract Katalon Studio
         run: |
           wget https://github.com/katalon-studio/katalon-studio/releases/download/v8.6.5/Katalon_Studio_Linux_64-8.6.5.tar.gz
-          tar -xzf Katalon_Studio_Linux_64-8.6.5.tar.gz
-          chmod +x Katalon_Studio_Linux_64-8.6.5/katalonc
+          mkdir katalon
+          tar -xzf Katalon_Studio_Linux_64-8.6.5.tar.gz -C katalon --strip-components=1
+          chmod +x katalon/katalonc
 
-      - name: Run Katalon test
+      - name: Run Katalon Test
         run: |
-          ./Katalon_Studio_Linux_64-8.6.5/katalonc -noSplash \
+          ./katalon/katalonc -noSplash \
           -runMode=console \
           -projectPath="$(pwd)/parabank.prj" \
           -testSuitePath="Test Suites/New Test Suite" \
